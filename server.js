@@ -7,21 +7,22 @@ const connectDB = require('./config/db');
 const app = express();
 
 // =========================
-// 🔥 DB CONNECTION
+// DB CONNECTION
 // =========================
-connectDB()
-  .then(() => console.log("MongoDB connecté"))
-  .catch(err => {
+(async () => {
+  try {
+    await connectDB();
+    console.log("MongoDB connecté");
+  } catch (err) {
     console.error("Erreur MongoDB:", err);
     process.exit(1);
-  });
+  }
+})();
 
 // =========================
 // MIDDLEWARE
 // =========================
-app.use(cors({
-  origin: "*"
-}));
+app.use(cors({ origin: "*" }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -36,7 +37,7 @@ app.use('/api/fournisseurs', require('./routes/fournisseurRoutes'));
 app.use('/api/mouvements', require('./routes/mouvementRoutes'));
 
 // =========================
-// HEALTH CHECK (IMPORTANT RENDER)
+// HEALTH CHECK
 // =========================
 app.get("/", (req, res) => {
   res.send("API StockPro OK 🚀");
