@@ -28,7 +28,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // =========================
-// ROUTES
+// SERVE FRONTEND (IMPORTANT)
+// =========================
+app.use(express.static("public"));
+
+// =========================
+// ROUTES API
 // =========================
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/articles', require('./routes/articleRoutes'));
@@ -37,7 +42,7 @@ app.use('/api/fournisseurs', require('./routes/fournisseurRoutes'));
 app.use('/api/mouvements', require('./routes/mouvementRoutes'));
 
 // =========================
-// HEALTH CHECK
+// HEALTH CHECK (RAILWAY)
 // =========================
 app.get("/", (req, res) => {
   res.send("API StockPro OK 🚀");
