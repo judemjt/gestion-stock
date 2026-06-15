@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mouvements - Gestion Stock</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="dashboard.html">📦 StockApp</a>
+
+        <div class="navbar-nav ms-auto">
+            <a class="nav-link" href="dashboard.html">📊 Dashboard</a>
+            <a class="nav-link" href="articles.html">📦 Articles</a>
+            <a class="nav-link" href="entrepots.html">🏢 Entrepôts</a>
+            <a class="nav-link active" href="mouvements.html">🔁 Mouvements</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4">
+
+    <!-- FILTRES -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <h5 class="mb-3">🔎 Filtres mouvements</h5>
+
+            <div class="row g-2">
+
+                <div class="col-md-4">
+                    <select id="filterType" class="form-select" onchange="filtrerMouvements()">
+                        <option value="">Tous types</option>
+                        <option value="ENTREE">Entrée</option>
+                        <option value="SORTIE">Sortie</option>
+                        <option value="TRANSFERT">Transfert</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <input id="filterArticle"
+                           class="form-control"
+                           placeholder="Rechercher un article..."
+                           oninput="filtrerMouvements()">
+                </div>
+
+                <div class="col-md-4">
+                    <input id="filterEntrepot"
+                           class="form-control"
+                           placeholder="Entrepôt / client / fournisseur..."
+                           oninput="filtrerMouvements()">
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- NOUVEAU MOUVEMENT -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <h5 class="mb-3">🔁 Nouveau mouvement</h5>
+
+            <div class="row g-3">
+
+                <div class="col-md-3">
+                    <label class="form-label">Type</label>
+                    <select id="type" class="form-select" onchange="changerType()">
+                        <option value="ENTREE">Entrée</option>
+                        <option value="SORTIE">Sortie</option>
+                        <option value="TRANSFERT">Transfert</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Article</label>
+                    <select id="article" class="form-select"></select>
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label">Quantité</label>
+                    <input id="quantite"
+                           type="number"
+                           min="1"
+                           step="1"
+                           class="form-control"
+                           required>
+                </div>
+
+            </div>
+
+            <!-- zone dynamique -->
+            <div class="row mt-3" id="zoneDynamique"></div>
+
+            <button class="btn btn-primary mt-3" onclick="executerMouvement()">
+                ✓ Valider le mouvement
+            </button>
+
+        </div>
+    </div>
+
+    <!-- HISTORIQUE -->
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h5 class="mb-3">📜 Historique des mouvements</h5>
+
+            <div class="table-responsive">
+
+                <table class="table table-striped table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Type</th>
+                            <th>Article</th>
+                            <th>Quantité</th>
+                            <th>Utilisateur</th>
+                            <th>Source</th>
+                            <th>Destination</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="mouvementsTable">
+                        <tr>
+                            <td colspan="7" class="text-center text-muted py-3">
+                                Aucun mouvement trouvé
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        window.location.replace("login.html");
+    }
+});
+</script>
+
+<script src="js/mouvements.js"></script>
+
+</body>
+</html>

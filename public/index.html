@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion Stock</title>
+</head>
+<body>
+
+<h2>Bienvenue sur Gestion Stock</h2>
+
+<script>
+    const token = localStorage.getItem("token");
+
+    if (token) {
+        window.location.href = "dashboard.html";
+    } else {
+        window.location.href = "login.html";
+    }
+</script>
+
+</body>
+</html>
