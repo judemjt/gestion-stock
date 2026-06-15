@@ -1,29 +1,12 @@
-async function login() {
+// =========================
+// 🔐 CONFIG TOKEN
+// =========================
+const API = "https://gestion-stock-production-0630.up.railway.app/api";
 
-    const email = document.getElementById("email").value;
-    const motDePasse = document.getElementById("password").value;
 
-    const response = await fetch("http://localhost:3000/api/auth/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ email, motDePasse })
-    });
-
-    const data = await response.json();
-
-    if (data.token) {
-
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-
-        window.location.href = "dashboard.html";
-
-    } else {
-        alert(data.message || "Erreur connexion");
-    }
-}
+// =========================
+// 🔐 PROTECTION DES PAGES
+// =========================
 function checkAuth() {
 
     const token = localStorage.getItem("token");
@@ -34,14 +17,11 @@ function checkAuth() {
         window.location.href = "login.html";
     }
 }
-function logout() {
 
-    localStorage.removeItem("token");
 
-    localStorage.removeItem("user");
-
-    window.location.href = "login.html";
-}
+// =========================
+// 👤 AFFICHER UTILISATEUR
+// =========================
 function afficherUtilisateur() {
 
     const user = JSON.parse(localStorage.getItem("user"));
@@ -58,6 +38,23 @@ function afficherUtilisateur() {
         el.innerHTML = "Utilisateur inconnu";
     }
 }
+
+
+// =========================
+// 🚪 LOGOUT PROPRE
+// =========================
+function logout() {
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    window.location.href = "login.html";
+}
+
+
+// =========================
+// 🔒 PROTECTION AVANT CHARGEMENT
+// =========================
 function protectPage() {
 
     const token = localStorage.getItem("token");
@@ -66,6 +63,11 @@ function protectPage() {
         window.location.href = "login.html";
     }
 }
+
+
+// =========================
+// 🚀 AUTO INIT
+// =========================
 document.addEventListener("DOMContentLoaded", () => {
 
     checkAuth();
