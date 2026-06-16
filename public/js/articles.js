@@ -1,4 +1,4 @@
-const API = "http://localhost:3000/api";
+const API = "https://gestion-stock-production-0630.up.railway.app/api";
 
 // =====================
 // 📦 CHARGER ARTICLES
