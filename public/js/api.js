@@ -1,32 +1,32 @@
-const API_URL = "http://localhost:3000/api";
+const API_URL = "https://gestion-stock-production-0630.up.railway.app/api";
 
-// 🔐 token
 function getToken() {
     return localStorage.getItem("token");
 }
 
-// 🚨 headers sécurisés
 function authHeaders() {
-
     const token = getToken();
 
     return {
         "Content-Type": "application/json",
-        ...(token && { "Authorization": "Bearer " + token })
+        ...(token && {
+            Authorization: `Bearer ${token}`
+        })
     };
 }
 
-// 🚨 gestion réponse globale
 async function handleResponse(res) {
 
     const data = await res.json();
 
     if (res.status === 401) {
+
         localStorage.removeItem("token");
         localStorage.removeItem("user");
 
         window.location.href = "login.html";
-        return null;
+
+        return;
     }
 
     if (!res.ok) {
@@ -36,24 +36,31 @@ async function handleResponse(res) {
     return data;
 }
 
-// GET sécurisé
 async function apiGet(endpoint) {
 
-    const res = await fetch(API_URL + endpoint, {
-        method: "GET",
+    const res = await fetch(`${API_URL}${endpoint}`, {
         headers: authHeaders()
     });
 
     return handleResponse(res);
 }
 
-// POST sécurisé
-async function apiPost(endpoint, data) {
+async function apiPost(endpoint, body) {
 
-    const res = await fetch(API_URL + endpoint, {
+    const res = await fetch(`${API_URL}${endpoint}`, {
         method: "POST",
         headers: authHeaders(),
-        body: JSON.stringify(data)
+        body: JSON.stringify(body)
+    });
+
+    return handleResponse(res);
+}
+
+async function apiDelete(endpoint) {
+
+    const res = await fetch(`${API_URL}${endpoint}`, {
+        method: "DELETE",
+        headers: authHeaders()
     });
 
     return handleResponse(res);
