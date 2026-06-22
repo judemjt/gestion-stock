@@ -12,7 +12,7 @@ const app = express();
 (async () => {
   try {
     await connectDB();
-    console.log("MongoDB connecté");
+    console.log("MongoDB connecté avec succès");
   } catch (err) {
     console.error("Erreur MongoDB:", err);
     process.exit(1);
